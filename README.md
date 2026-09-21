@@ -1,43 +1,24 @@
-# ETS2 Damage Offset Dumper
-**by prox0959**
+# ETS2 Process Memory Dumper (C++)
 
-A tool that scans Euro Truck Simulator 2's memory and automatically finds damage-related offsets for vehicle components.
+[![C++](https://img.shields.io/badge/Language-C%2B%2B-blue.svg)](https://en.cppreference.com/)
+[![Platform](https://img.shields.io/badge/Platform-Windows%20x64-0078D6.svg)](https://microsoft.com)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Status](https://img.shields.io/badge/Status-Completed-success.svg)](#)
 
----
-
-## What Does It Do?
-
-When launched while the game is running, it detects and prints the following 5 damage-related memory offsets:
-
-| Component | Description |
-|-----------|-------------|
-| **Chassis** | Truck body damage offset |
-| **Transmission** | Gearbox damage offset |
-| **Engine** | Engine damage offset |
-| **Cabin** | Cabin damage offset |
-| **Wheel** | Tire/wheel wear offset |
+A high-performance C++ utility designed for reverse engineering, memory scanning, and runtime telemetry inspection of Euro Truck Simulator 2 (x64). It attaches to the target game process, resolves virtual memory segments, and dumps target structures for security research and offline inspection.
 
 ---
 
-## How To Use?
-
-1. Open **Euro Truck Simulator 2** and load into a game.
-2. Run `dumper.exe` **as Administrator**.
-3. The program automatically attaches to the game, scans memory, and prints the offsets.
-
----
-
-## Technical Details
-
-- **Language:** C++ (Windows API)
-- **Method:** AoB (Array of Bytes) / Pattern Scanning
-- **Memory Access:** Read-only (`ReadProcessMemory`)
-- **Target Process:** `eurotrucks2.exe`
+## [EN] Technical Overview
+* **Process Handle Acquisition:** Opens the target process with required memory query permissions (`PROCESS_VM_READ | PROCESS_QUERY_INFORMATION`).
+* **Memory Traversal:** Walks virtual address descriptors via `VirtualQueryEx` to identify committed executable and writable memory regions.
+* **Pattern / Signature Scanning:** Fast memory pattern matching to locate dynamic base offsets, structs, and pointers.
+* **Safe Memory Dumping:** Streams memory chunks to local binary/text outputs without causing memory access violations or process crashes.
 
 ---
 
-## Requirements
-
-- Windows 10/11
-- Euro Truck Simulator 2
-- Visual Studio 2019+ (for compilation)
+## [TR] Teknik Açıklama
+Euro Truck Simulator 2 (x64) süreci üzerinde tersine mühendislik ve bellek yapısı araştırması yapmak için geliştirilmiş C++ aracıdır.
+* **Bellek Segmenti Tarama:** `VirtualQueryEx` ile oyunun sanal bellek alanlarını ve modül offset'lerini listeler.
+* **Veri Okuma:** `ReadProcessMemory` API'si ile hedef veri yapılarını ve bellek alanlarını diske dump eder.
+* **Kullanım Amacı:** Yalnızca tek oyunculu modda oyun mimarisi, struct adresleme ve tersine mühendislik temellerini anlamak için geliştirilmiştir.
